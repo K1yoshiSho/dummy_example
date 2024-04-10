@@ -1,4 +1,4 @@
-package kz.app.dummy_example
+package kz.app.template
 
 import io.flutter.embedding.android.FlutterActivity
 

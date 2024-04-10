@@ -1,0 +1,53 @@
+import 'package:base_starter/src/feature/ispect/inspector/src/widgets/color_picker/utils.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+void showColorPickerResultSnackbar({
+  required BuildContext context,
+  required Color color,
+}) {
+  final colorString = '#${colorToHexString(color)}';
+
+  ScaffoldMessenger.of(context).clearSnackBars();
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Theme.of(context).cardColor,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: Theme.of(context).dividerColor,
+        ),
+      ),
+      content: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 16.0,
+            height: 16.0,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(4.0),
+              border: Border.all(
+                color: Theme.of(context).dividerColor,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8.0),
+          Text(
+            'Color: $colorString',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ],
+      ),
+      action: SnackBarAction(
+        label: "Copy",
+        onPressed: () {
+          Clipboard.setData(ClipboardData(text: colorString));
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        },
+      ),
+    ),
+  );
+}

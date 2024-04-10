@@ -35,13 +35,15 @@ enum InvokerState { alwaysOpened, collapsible, autoCollapse }
 class DraggableButton extends StatefulWidget {
   final Widget child;
   final InvokerState state;
-  final bool newWindowInDesktop;
+  final ThemeData theme;
+  final bool isEnabled;
 
   const DraggableButton({
     required this.child,
+    required this.theme,
+    this.isEnabled = false,
     super.key,
     this.state = InvokerState.autoCollapse,
-    this.newWindowInDesktop = true,
   });
 
   @override
@@ -77,89 +79,91 @@ class _InfospectInvokerState extends State<DraggableButton> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return GestureDetector(
-      onTap: () {
-        if (widget.state != InvokerState.alwaysOpened) {
-          setState(() {
-            if (!isCollapsed) {
-              isCollapsed = true;
-              if (widget.state == InvokerState.autoCollapse) {
-                startAutoCollapseTimer();
-              }
-            }
-          });
-        }
-      },
-      child: Stack(
-        children: [
-          widget.child,
-          Positioned(
-            top: yPos,
-            left: (xPos < 50) ? xPos : null,
-            right: (xPos > 50) ? screenWidth - xPos - 50 : null,
-            child: GestureDetector(
-              onPanUpdate: (details) {
-                if (!isCollapsed) {
-                  setState(() {
-                    xPos += details.delta.dx;
-                    yPos += details.delta.dy;
-                  });
-                }
-              },
-              onPanEnd: (details) {
-                if (!isCollapsed) {
-                  final screenWidth = MediaQuery.sizeOf(context).width;
-                  const buttonWidth = 50;
-
-                  final halfScreenWidth = screenWidth / 2;
-                  double targetXPos;
-
-                  if (xPos + buttonWidth / 2 < halfScreenWidth) {
-                    targetXPos = 0;
-                  } else {
-                    targetXPos = screenWidth - buttonWidth;
-                  }
-
-                  setState(() {
-                    xPos = targetXPos;
-                  });
-
-                  if (widget.state == InvokerState.autoCollapse) {
-                    startAutoCollapseTimer();
-                  }
-                }
-              },
-              onTap: () {
+    return widget.isEnabled
+        ? GestureDetector(
+            onTap: () {
+              if (widget.state != InvokerState.alwaysOpened) {
                 setState(() {
-                  isCollapsed = !isCollapsed;
-                  if (isCollapsed) {
-                    cancelAutoCollapseTimer();
-                    _launchInfospect();
-                  } else if (widget.state == InvokerState.autoCollapse) {
-                    startAutoCollapseTimer();
+                  if (!isCollapsed) {
+                    isCollapsed = true;
+                    if (widget.state == InvokerState.autoCollapse) {
+                      startAutoCollapseTimer();
+                    }
                   }
                 });
-              },
-              child: AnimatedContainer(
-                width: isCollapsed ? 50 * 0.2 : 50,
-                height: 50,
-                duration: const Duration(milliseconds: 300),
-                decoration: BoxDecoration(
-                  color: context.theme.colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(16),
+              }
+            },
+            child: Stack(
+              children: [
+                widget.child,
+                Positioned(
+                  top: yPos,
+                  left: (xPos < 50) ? xPos : null,
+                  right: (xPos > 50) ? screenWidth - xPos - 50 : null,
+                  child: GestureDetector(
+                    onPanUpdate: (details) {
+                      if (!isCollapsed) {
+                        setState(() {
+                          xPos += details.delta.dx;
+                          yPos += details.delta.dy;
+                        });
+                      }
+                    },
+                    onPanEnd: (details) {
+                      if (!isCollapsed) {
+                        final screenWidth = MediaQuery.sizeOf(context).width;
+                        const buttonWidth = 50;
+
+                        final halfScreenWidth = screenWidth / 2;
+                        double targetXPos;
+
+                        if (xPos + buttonWidth / 2 < halfScreenWidth) {
+                          targetXPos = 0;
+                        } else {
+                          targetXPos = screenWidth - buttonWidth;
+                        }
+
+                        setState(() {
+                          xPos = targetXPos;
+                        });
+
+                        if (widget.state == InvokerState.autoCollapse) {
+                          startAutoCollapseTimer();
+                        }
+                      }
+                    },
+                    onTap: () {
+                      setState(() {
+                        isCollapsed = !isCollapsed;
+                        if (isCollapsed) {
+                          cancelAutoCollapseTimer();
+                          _launchInfospect();
+                        } else if (widget.state == InvokerState.autoCollapse) {
+                          startAutoCollapseTimer();
+                        }
+                      });
+                    },
+                    child: AnimatedContainer(
+                      width: isCollapsed ? 50 * 0.2 : 50,
+                      height: 50,
+                      duration: const Duration(milliseconds: 300),
+                      decoration: BoxDecoration(
+                        color: widget.theme.colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: !isCollapsed
+                          ? const Icon(
+                              Icons.monitor_heart,
+                              color: Colors.white,
+                            )
+                          : null,
+                    ),
+                  ),
                 ),
-                child: !isCollapsed
-                    ? const Icon(
-                        Icons.monitor_heart,
-                        color: Colors.white,
-                      )
-                    : null,
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          )
+        : widget.child;
   }
 
   @override

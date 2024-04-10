@@ -1,6 +1,6 @@
 {
-    "name": "base_riverpod",
-    "short_name": "base_riverpod",
+    "name": "template",
+    "short_name": "template",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

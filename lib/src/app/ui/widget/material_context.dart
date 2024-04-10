@@ -13,7 +13,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 /// [MaterialContext] is an entry point to the material context.
 /// This widget sets locales, themes and routing.
 class MaterialContext extends ConsumerWidget {
-  const MaterialContext({required this.routerConfig, super.key});
+  const MaterialContext({
+    required this.routerConfig,
+    super.key,
+  });
 
   final GoRouter routerConfig;
 
@@ -49,10 +52,6 @@ class MaterialContext extends ConsumerWidget {
           child = MediaQuery.withClampedTextScaling(
             minScaleFactor: 1.0,
             maxScaleFactor: 2.0,
-            child: child,
-          );
-
-          child = DraggableButton(
             child: child,
           );
 

@@ -1,4 +1,3 @@
-cd ..
 cd ios
 pod deintegrate
 pod repo update
