@@ -1,6 +1,5 @@
+import 'package:base_starter/src/feature/ispect/inspector/src/widgets/inspector/box_info.dart';
 import 'package:flutter/material.dart';
-
-import '../inspector/box_info.dart';
 
 class BoxModelPainter extends CustomPainter {
   BoxModelPainter({
@@ -19,7 +18,8 @@ class BoxModelPainter extends CustomPainter {
 
   Paint get _containerPaint => Paint()..color = containerColor;
 
-  Paint get _containerDashPaint => Paint()..color = containerColor.withOpacity(0.35);
+  Paint get _containerDashPaint =>
+      Paint()..color = containerColor.withOpacity(0.35);
 
   final double _dashWidth = 4.0;
   final double _dashSkip = 0.0;

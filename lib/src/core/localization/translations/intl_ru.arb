@@ -190,5 +190,12 @@
       }
    },
    "app_info": "Информация об устройстве",
-   "copied_to_clipboard": "Скопировано в буфер обмена"
+   "copied_to_clipboard": "Скопировано в буфер обмена",
+   "copy": "Скопировать",
+   "cache_size": "Размер кэша: {size}",
+   "@cache_size": {
+      "placeholders": {
+         "size": {}
+      }
+   }
 }

@@ -95,22 +95,6 @@ class _TalkerSettingsBottomSheetState
           },
         ),
       ],
-      if (!widget.isStandart) ...[
-        TalkerSettingsCardItem(
-          talkerScreenTheme: widget.talkerScreenTheme,
-          title: ref.read(appConfigsProvider.notifier).isInspectorEnabled()
-              ? context.l10n.turn_off_inspector
-              : context.l10n.turn_on_inspector,
-          backgroundColor: widget.talkerScreenTheme.cardColor,
-          enabled: ref.watch(appConfigsProvider).isInspectorEnabled,
-          onChanged: (enabled) {
-            ref.read(appConfigsProvider.notifier).setInspector(
-                  value: enabled,
-                );
-            widget.talker.notifyListeners();
-          },
-        ),
-      ],
     ];
 
     return BaseBottomSheet(

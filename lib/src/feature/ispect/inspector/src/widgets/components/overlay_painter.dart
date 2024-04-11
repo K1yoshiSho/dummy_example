@@ -1,5 +1,5 @@
+import 'package:base_starter/src/feature/ispect/inspector/src/widgets/inspector/box_info.dart';
 import 'package:flutter/widgets.dart';
-import '../inspector/box_info.dart';
 
 class OverlayPainter extends CustomPainter {
   OverlayPainter({
@@ -41,9 +41,8 @@ class OverlayPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(OverlayPainter oldDelegate) {
-    return oldDelegate.boxInfo != boxInfo ||
-        oldDelegate.containerRectColor != containerRectColor ||
-        oldDelegate.targetRectColor != targetRectColor;
-  }
+  bool shouldRepaint(OverlayPainter oldDelegate) =>
+      oldDelegate.boxInfo != boxInfo ||
+      oldDelegate.containerRectColor != containerRectColor ||
+      oldDelegate.targetRectColor != targetRectColor;
 }

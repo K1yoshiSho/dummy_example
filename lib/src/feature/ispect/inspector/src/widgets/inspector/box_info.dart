@@ -2,7 +2,7 @@ import 'package:flutter/rendering.dart';
 
 /// Contains information about the currently selected [RenderBox].
 ///
-/// [containerRect] may be [null].
+/// [containerRect] may be `null`.
 class BoxInfo {
   BoxInfo({
     required this.targetRenderBox,
@@ -42,7 +42,9 @@ class BoxInfo {
 
   Rect get targetRectShifted => targetRect.shift(-overlayOffset);
 
-  Rect? get containerRect => containerRenderBox != null ? getRectFromRenderBox(containerRenderBox!) : null;
+  Rect? get containerRect => containerRenderBox != null
+      ? getRectFromRenderBox(containerRenderBox!)
+      : null;
 
   Rect get containerRectShifted => targetRect.shift(-overlayOffset);
 
@@ -98,9 +100,12 @@ class BoxInfo {
     return '$left, $top, $right, $bottom';
   }
 
-  bool get isDecoratedBox => targetRenderBox is RenderDecoratedBox && (targetRenderBox as RenderDecoratedBox).decoration is BoxDecoration;
+  bool get isDecoratedBox =>
+      targetRenderBox is RenderDecoratedBox &&
+      (targetRenderBox as RenderDecoratedBox).decoration is BoxDecoration;
 
-  BoxDecoration get _decoration => (targetRenderBox as RenderDecoratedBox).decoration as BoxDecoration;
+  BoxDecoration get _decoration =>
+      (targetRenderBox as RenderDecoratedBox).decoration as BoxDecoration;
 
   Color? getDecoratedBoxColor() {
     assert(isDecoratedBox);
@@ -113,9 +118,9 @@ class BoxInfo {
   }
 }
 
-Rect? getRectFromRenderBox(RenderBox renderBox) {
-  return renderBox.attached ? (renderBox.localToGlobal(Offset.zero)) & renderBox.size : null;
-}
+Rect? getRectFromRenderBox(RenderBox renderBox) => renderBox.attached
+      ? (renderBox.localToGlobal(Offset.zero)) & renderBox.size
+      : null;
 
 double calculateBoxPosition({
   required Rect rect,

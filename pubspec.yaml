@@ -75,6 +75,8 @@ dependencies:
   go_router: ^13.2.1
   performance: ^0.1.1
   flutter_secure_storage: ^9.0.0
+  simple_app_cache_manager: ^0.0.4
+  flutter_cache_manager: ^3.3.1
   
 dev_dependencies:
   # Testing

@@ -4,47 +4,69 @@ class AppDataController extends ChangeNotifier {
   var _files = <File>[];
   List<File> get files => _files;
 
-  Future<void> loadFilesList() async {
+  Future<void> loadFilesList({
+    required BuildContext context,
+  }) async {
     try {
-      final f = await FileService.instance.getFiles();
+      final f = await fs.FileService.instance.getFiles();
       _files = f;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         notifyListeners();
       });
     } on Exception catch (e, st) {
-      talker.handle(e, st);
-      await Toaster.showErrorToast(
-        navigatorKey.currentContext!,
-        title: e.toString(),
-      );
+      if (context.mounted &&
+          !e.toString().contains("No such file or directory")) {
+        talker.handle(e, st);
+        await Toaster.showErrorToast(
+          context,
+          title: e.toString(),
+        );
+      }
     }
   }
 
-  Future<void> deleteFile(int index) async {
+  Future<void> deleteFile({
+    required BuildContext context,
+    required int index,
+  }) async {
     try {
       await _files[index].delete();
-      await loadFilesList();
+      if (context.mounted) {
+        await loadFilesList(
+          context: context,
+        );
+      }
     } on Exception catch (e, st) {
       talker.handle(e, st);
-      await Toaster.showErrorToast(
-        navigatorKey.currentContext!,
-        title: e.toString(),
-      );
+      if (context.mounted) {
+        await Toaster.showErrorToast(
+          context,
+          title: e.toString(),
+        );
+      }
     }
   }
 
-  Future<void> deleteFiles() async {
+  Future<void> deleteFiles({
+    required BuildContext context,
+  }) async {
     try {
       for (final file in _files) {
         await file.delete();
       }
-      await loadFilesList();
+      if (context.mounted) {
+        await loadFilesList(
+          context: context,
+        );
+      }
     } on Exception catch (e, st) {
       talker.handle(e, st);
-      await Toaster.showErrorToast(
-        navigatorKey.currentContext!,
-        title: e.toString(),
-      );
+      if (context.mounted) {
+        await Toaster.showErrorToast(
+          context,
+          title: e.toString(),
+        );
+      }
     }
   }
 }

@@ -33,7 +33,7 @@ class _RootPageState extends ConsumerState<RootPage> {
     final theme = SettingsScope.of(context).theme;
     final locale = SettingsScope.of(context).locale;
     final config = EnvironmentScope.of(context);
-    final appConfigState = ref.watch(appConfigsProvider);
+    ref.watch(appConfigsProvider);
     return BetterFeedback(
       themeMode: theme.mode,
       localizationsDelegates: Localization.localizationDelegates,
